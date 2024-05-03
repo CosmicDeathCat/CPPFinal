@@ -4,6 +4,7 @@
 #include <cctype>
 #include <algorithm>
 #include <random>
+#include <chrono>
 
 using namespace std;
 
@@ -287,14 +288,15 @@ void set_nouns(vector<Noun>& nouns)
     
     
 }
-void randomItemLocations(vector<Noun>& nouns)
-{
+
+void randomItemLocations(vector<Noun>& nouns) {
     vector<int> roomIndices;
     for (int i = 0; i < ROOMS; i++) {
         roomIndices.push_back(i);
     }
-    shuffle(roomIndices.begin(), roomIndices.end(), default_random_engine());
-    
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    shuffle(roomIndices.begin(), roomIndices.end(), default_random_engine(seed));
+
     int roomIndex = 0; 
     for (int i = 0; i < NOUNS; i++) {
         if (nouns[i].location == NONE) {
